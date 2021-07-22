@@ -1,0 +1,24 @@
+{
+  "startDate": "0",
+  "endDate": "2",
+  "schedulers": [
+    {
+      "type": "cron",
+      "expression": "* */7 * * * ?",
+      "source": "ott-sink-hdfs-all-message",
+      "preview": "ottalldate",
+      "sql": "SELECT count(mobile) as totalCount, sum(money) as totalMoney, mobile, upper(bankCode) as bankCode, typeService, date_format(datetimePayment,'yyyy-MM-dd') as datePayment FROM ottalldate group by mobile, upper(bankCode), typeService, datePayment",
+      "collection": "vnpay_ott_group_date_message",
+      "saveMode": "Overwrite"
+    },
+    {
+      "type": "cron",
+      "expression": "* */12 * * * ?",
+      "source": "ott-sink-hdfs-all-message",
+      "preview": "ottallhour",
+      "sql": "SELECT count(mobile) as totalCount, sum(money) as totalMoney, mobile, upper(bankCode) as bankCode, typeService, date_format(datetimePayment,'HH') as datePayment FROM ottallhour group by mobile, upper(bankCode), typeService, datePayment",
+      "collection": "vnpay_ott_group_hour_message",
+      "saveMode": "Overwrite"
+    }
+  ]
+}
